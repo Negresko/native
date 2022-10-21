@@ -1,37 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { useRef, useEffect } from 'react';
+import { StatusBar } from 'react-native';
+import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold, Inter_900Black} from '@expo-google-fonts/inter';
+import { Subscription } from 'expo-modules-core';
+import { Background } from './src/components/background';
+import { Routes } from './src/routes';
+import { Loading } from './src/components/Loading';
+import * as Notifications from 'expo-notifications';
+import './src/services/notificationConfigs'
+import { getPushNotificationToken } from './src/services/getPushNotificationToken'
 
 
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_900Black,
+  });
+
+  const getNotificationListener = useRef<Subscription>();
+  const responseNotificationListener = useRef<Subscription>();
+
+  useEffect(() => {
+    getPushNotificationToken();
+  });
+
+  useEffect(() => {
+    getNotificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+
+    });
+    responseNotificationListener.current = Notifications.addNotificationResponseReceivedListener(response =>{
+
+    });
+
+    return () => {
+      if(getNotificationListener.current && responseNotificationListener.current){
+        Notifications.removeNotificationSubscription(getNotificationListener.current);
+        Notifications.removeNotificationSubscription(responseNotificationListener.current);
+      }
+    }
+  },[])
+
   return (
-    <View style={styles.container}>
-      <Text>Hora do Show PORRA!</Text>
-      <StatusBar style="auto" />
-      <Button title="Clica ai"/>
-    </View>
+    <Background>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent/>
+      {fontsLoaded ? <Routes /> : <Loading />}
+    </Background>
   );
 }
 
-interface ButtonProps{
-  title: string;
-}
 
-function Button(props: ButtonProps){
-  return(
-    <TouchableOpacity>
-      <text>
-        {props.title}
-      </text>
-    </TouchableOpacity>
-  )
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
