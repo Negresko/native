@@ -37,12 +37,15 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   emptyListText: {
+    width: 290,
+    alignItems: 'center',
     color: THEME.COLORS.CAPTION_300,
     fontSize: THEME.FONT_SIZE.SM,
     fontFamily: THEME.FONT_FAMILY.REGULAR,
   },
   emptyListContent: {
-    flex: 1,
+    marginLeft: 40,
+    marginBottom: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },

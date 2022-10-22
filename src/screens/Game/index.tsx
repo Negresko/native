@@ -4,7 +4,7 @@ import { Background } from '../../components/background';
 import { styles } from './styles';
 import { GameParams } from '../../@types/navigation';
 import { TouchableOpacity, Text, View, Image, FlatList } from 'react-native';
-import { Entypo } from '@expo/vector-icons'
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
 import { THEME } from '../../theme';
 import logoImg from '../../assets/logo-nlw-esports.png';
 import { Heading } from '../../components/Heading';
@@ -48,7 +48,7 @@ export function Game() {
         </View>
         <Image source={{ uri: game.bannerUrl }} style={styles.cover} resizeMode="cover"/>
         <Heading title={game.title} subtitle="Entre agora e comece a Jogar!"/>
-        <FlatList data={duos} keyExtractor={item => item.id} renderItem={({item}) => (
+        <FlatList data={duos} keyExtractor={item => item.id} renderItem={({item}) => (  
           <DuoCard data={item} onConnect={() => getDiscordUser(item.id)}/>
         )}
         horizontal
